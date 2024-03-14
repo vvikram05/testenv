@@ -1,14 +1,24 @@
 name: Deployment
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment'
+        required: true
+        default: 'dev'
+        options: ['dev', 'production']
+        type: choice
 
 jobs:
-  deployment:
+  plan:
     runs-on: ubuntu-latest
-    environment: dev
+    steps:
+      - name: Print Hello World
+        run: echo "Hello, World!"
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
     steps:
       - name: Print Hello World
         run: echo "Hello, World!"
